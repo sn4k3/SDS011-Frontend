@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="refresh" content="20">
+    <title>SDS011 AQI</title>
+    <script src="assets/aqi.js"></script>
+    <script src="assets/Chart.bundle.min.js"></script>
+    <link rel='stylesheet' href='assets/style.css'>
+  </head>
+  <body onload="getData()">
+    <div class="container">
+      <!--<h1>AQI</h1>!-->
+      <p class='time' id="time">&nbsp;</p>
+      <div class='aqi-container' id="containerPm25">
+          <div class='aqi-label'>AQI (PM2.5)</div>
+          <div class='aqi' id="aqiPm25"></div>
+          <div class='pm-label' id="pm25"></div>
+      </div>
+      <div class='aqi-container' id="containerPm10">
+          <div class='aqi-label'>AQI (PM10)</div>
+          <div class='aqi' id="aqiPm10"></div>
+          <div class='pm-label' id="pm10"></div>
+      </div>
+	  
+	  
+	</div>
+	  
+	<canvas id="aqi_chart" width="740" height="400"></canvas>
+	
+	<div class="container">
+		<img src="assets/air_quality_index.png" />
+	</div>
+	  
+  </body>
+</html>
