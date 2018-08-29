@@ -16,6 +16,11 @@ First steps
  chmod +x /var/www/html/aqi.py
  ```
  
+ To test if the aqi.py script is OK you can run:
+ 
+ ``python /var/www/html/aqi.py``
+ (You need to force quit when you ready, CTRL + C)
+ 
  Run the script automatically so that we don’t have to start the script manually every time, we can let it start with a cronjob, e.g., with every restart of the Raspberry Pi. To do this, open the crontab file:
  
  ``crontab -e``
