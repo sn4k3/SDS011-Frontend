@@ -32,3 +32,23 @@
 h1 {
   text-align: center;
 }
+
+.center{
+    text-align: center;
+}
+
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+.buttonGreen {background-color: #4CAF50;} /* Green */
+.buttonBlue {background-color: #008CBA;} /* Blue */
+.buttonRed {background-color: #f44336;} /* Red */
+.buttonGray {background-color: #e7e7e7; color: black;} /* Gray */
+.buttonBlack {background-color: #555555;} /* Black */

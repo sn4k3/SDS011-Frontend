@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="refresh" content="20">
+    <meta http-equiv="refresh" content="60">
     <title>SDS011 AQI</title>
     <script src="assets/aqi.js"></script>
     <script src="assets/Chart.bundle.min.js"></script>
@@ -29,7 +29,8 @@
 	  
 	<canvas id="aqi_chart" width="740" height="400"></canvas>
 	
-	<div class="container">
+	<div class="container center">
+        <button class="button" onclick="window.location.reload(false);">Refresh</button>
 		<img src="assets/air_quality_index.png" />
 	</div>
 	  
