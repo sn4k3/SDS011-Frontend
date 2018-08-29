@@ -53,8 +53,16 @@ First steps
  Note: Changes under this file require a reboot or kill the process and re run. 
  
 ````python
-READINGS = 10               # Number of readings, this will not perform an AVG, only the last read will be used as value
-SLEEP_SECONDS = 60          # Update frequency in seconds, new measurement after that time
+SERIALPORT = "/dev/ttyUSB0" # USB port where SDS011 is
+# This will influence the accuracy and speed of readings, keep a good balance
+# Less reads = Less precision and fast
+# More reads = More precision and slow
+# After measurements the sensor, laser and fan will be turn off for 'UPDATE_FREQUENCY' time, this will increase the lifespan of the sensor.
+READINGS = 10  # Number of readings, this will not perform an AVG, only the last read will be used as value.
+SLEEP_BETWEEN_READS = 2  # Time to sleep in seconds between each read, total read time will be READINGS x SLEEP_BETWEEN_READS.
+UPDATE_FREQUENCY = 60  # Update frequency in seconds, new measurements after that time.
+# If UPDATE_FREQUENCY = 0, the sensor will never turn off, this will wear your sensor much faster.
+# (according to the manufacturer, the lifespan totals approximately 8000 hours).
 ````
 
 **/var/www/html/index.html**
