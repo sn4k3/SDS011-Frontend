@@ -131,10 +131,10 @@ if __name__ == "__main__":
         for t in range(READINGS):
             time.sleep(SLEEP_BETWEEN_READS)
             values = cmd_query_data()
-            if values is not None:
+            if values is not None and len(values) == 2:
                 print(str(t + 1) + "# PM2.5: ", values[0], ", PM10: ", values[1])
 
-        if values is not None:
+        if values is not None and len(values) == 2:
             # open stored data
             with open('/var/www/html/aqi.json') as json_data:
                 data = json.load(json_data)
