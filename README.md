@@ -63,3 +63,13 @@ SLEEP_SECONDS = 60          # Update frequency in seconds
 <!-- Page refresh frequency in seconds, remove line or comment for manual refresh -->
 <meta http-equiv="refresh" content="20">
 ````
+
+## 3. Update
+
+If you wish to update/reset your frontend and lose any changes you have made:
+
+````ssh
+git clone https://github.com/sn4k3/SDS011-Frontend.git sds011temp 
+rsync -a sds011temp/* /var/www/html/
+rm -rf sds011temp
+````
