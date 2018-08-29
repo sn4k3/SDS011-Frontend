@@ -12,7 +12,11 @@
   <body onload="getData()">
     <div class="container">
       <!--<h1>AQI</h1>!-->
-      <p class='time' id="time">&nbsp;</p>
+        <div class="clearfix">
+            <p class='time floatLeft' id="time">&nbsp;</p>
+            <button class="button buttonBlack floatRight" onclick="window.location.reload(false);">Refresh</button>
+        </div>
+        <div class="clearfix"></div>
       <div class='aqi-container' id="containerPm25">
           <div class='aqi-label'>AQI (PM2.5)</div>
           <div class='aqi' id="aqiPm25"></div>
@@ -30,7 +34,6 @@
 	<canvas id="aqi_chart" width="740" height="400"></canvas>
 	
 	<div class="container center">
-        <button class="button" onclick="window.location.reload(false);">Refresh</button>
 		<img src="assets/air_quality_index.png" />
 	</div>
 	  

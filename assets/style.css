@@ -25,8 +25,6 @@
 }
 
 .time {
-    text-align: center;
-    font-weight: bold;
 }
 
 h1 {
@@ -35,6 +33,21 @@ h1 {
 
 .center{
     text-align: center;
+}
+.floatLeft{
+    float:left;
+}
+.floatRight{
+    float:right;
+}
+
+.clearfix{
+    overflow: auto;
+}
+.clearfix::after {
+    display: block;
+    content: "";
+    clear: both;
 }
 
 .button {

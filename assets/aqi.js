@@ -104,7 +104,7 @@ function updateHtml(data) {
   let aqiPm10 = calcAQIpm10(data.pm10);
 
   //update HTML
-  document.getElementById("time").innerHTML = data.time;
+  document.getElementById("time").innerHTML = "Last measurement: <strong>"+data.time+"</strong>";
   document.getElementById("aqiPm25").innerHTML = aqiPm25;
   document.getElementById("aqiPm10").innerHTML = aqiPm10;
   document.getElementById("pm25").innerHTML = "(PM2.5: " + data.pm25 + " µg/m³)";
@@ -114,9 +114,9 @@ function updateHtml(data) {
   colorsPm25 = getColor(aqiPm25);
   colorsPm10 = getColor(aqiPm10);
   document.getElementById("containerPm25").style.background = colorsPm25.bg;
-  document.getElementById("containerPm25").style.color = colorsPm25.text
+  document.getElementById("containerPm25").style.color = colorsPm25.text;
   document.getElementById("containerPm10").style.background = colorsPm10.bg;
-  document.getElementById("containerPm10").style.color = colorsPm10.text
+  document.getElementById("containerPm10").style.color = colorsPm10.text;
 }
 
 function getColor(aqi) {
