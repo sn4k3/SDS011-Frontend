@@ -12,8 +12,9 @@ First steps
  git clone https://github.com/sn4k3/SDS011-Frontend.git sds011temp 
  rsync -a sds011temp/* /var/www/html/
  rm -rf sds011temp
- echo [] > /var/www/html/aqi.json
  chmod +x /var/www/html/aqi.py
+ echo [] > /var/www/html/aqi.json
+  
  ```
  
  To test if the aqi.py script is OK you can run:
@@ -85,4 +86,6 @@ If you wish to update/reset your frontend and lose any changes you have made:
 git clone https://github.com/sn4k3/SDS011-Frontend.git sds011temp 
 rsync -a sds011temp/* /var/www/html/
 rm -rf sds011temp
+chmod +x /var/www/html/aqi.py
+
 ````
