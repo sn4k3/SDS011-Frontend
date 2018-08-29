@@ -11,11 +11,12 @@ SERIALPORT = "/dev/ttyUSB0" # USB port where SDS011 is
 # Less reads = Less precision and fast
 # More reads = More precision and slow
 # After measurements the sensor, laser and fan will be turn off for 'UPDATE_FREQUENCY' time, this will increase the lifespan of the sensor.
-READINGS = 10  # Number of readings, this will not perform an AVG, only the last read will be used as value.
-SLEEP_BETWEEN_READS = 2  # Time to sleep in seconds between each read, total read time will be READINGS x SLEEP_BETWEEN_READS.
-UPDATE_FREQUENCY = 60  # Update frequency in seconds, new measurements after that time.
+READINGS = 10           # Number of readings, this will not perform an AVG, only the last read will be used as value.
+SLEEP_BETWEEN_READS = 2 # Time to sleep in seconds between each read, total read time will be READINGS x SLEEP_BETWEEN_READS.
+UPDATE_FREQUENCY = 60   # Update frequency in seconds, new measurements after that time.
 # If UPDATE_FREQUENCY = 0, the sensor will never turn off, this will wear your sensor much faster.
 # (according to the manufacturer, the lifespan totals approximately 8000 hours).
+STORED_READ_NUM = 100   # Maximum number of readings to plot or store, when max is reached, the oldest read will be removed.
 
 
 # Don't change
@@ -139,8 +140,8 @@ if __name__ == "__main__":
             with open('/var/www/html/aqi.json') as json_data:
                 data = json.load(json_data)
 
-            # check if length is more than 100 and delete first element
-            if len(data) > 100:
+            # check if length is more than STORED_READ_NUM and delete first/oldest element
+            while len(data) > STORED_READ_NUM:
                 data.pop(0)
 
             # append new values

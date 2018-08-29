@@ -69,6 +69,7 @@ SLEEP_BETWEEN_READS = 2  # Time to sleep in seconds between each read, total rea
 UPDATE_FREQUENCY = 60  # Update frequency in seconds, new measurements after that time.
 # If UPDATE_FREQUENCY = 0, the sensor will never turn off, this will wear your sensor much faster.
 # (according to the manufacturer, the lifespan totals approximately 8000 hours).
+STORED_READ_NUM = 100   # Maximum number of readings to plot or store, when max is reached, the oldest read will be removed.
 ````
 
 **/var/www/html/index.html**
