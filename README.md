@@ -9,7 +9,9 @@ First steps
  ```ssh
  sudo apt install git-core python-serial python-enum lighttpd
  sudo chown pi:pi /var/www/html/
- git clone https://github.com/sn4k3/Octoprint-SDS011.git /var/www/html 
+ git clone https://github.com/sn4k3/SDS011-Frontend.git sds011temp 
+ rsync -a sds011temp/* /var/www/html/
+ rm -rf sds011temp
  echo [] > /var/www/html/aqi.json
  chmod +x /var/www/html/aqi.py
  ```
