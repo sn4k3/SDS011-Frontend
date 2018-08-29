@@ -151,7 +151,7 @@ if __name__ == "__main__":
                 json.dump(data, outfile)
 
         if UPDATE_FREQUENCY > 0:
-            print("Going to sleep for " + str((SLEEP_SECONDS / 60)) + " min...")
+            print("Going to sleep for " + str((UPDATE_FREQUENCY / 60)) + " min...")
             cmd_set_mode(0)
             cmd_set_sleep()
             time.sleep(UPDATE_FREQUENCY)
