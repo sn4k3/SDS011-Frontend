@@ -48,6 +48,8 @@ First steps
  
  **/var/www/html/aqi.py**
  
+ Note: Changes under this file require a reboot or kill the process and re run. 
+ 
 ````python
 READINGS = 10               # Number of readings, this will not perform an AVG, only the last read will be used as value
 SLEEP_SECONDS = 60          # Update frequency in seconds
