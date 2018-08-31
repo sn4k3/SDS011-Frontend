@@ -84,7 +84,7 @@ var AQI_MIN_UPDATE_FREQUENCY 		= 10; 	// Min seconds for the update frequency, m
 Use url parameters like: http://url:port/?param1=value&param2=othervalue
 
 ````
-update=60 // Seconds to refresh the data, use 0 for manual refresh only. if not set AQI_DEFAULT_UPDATE_FREQUENCY will be used.
+refresh=60 // Seconds to refresh the data, use 0 for manual refresh only. if not set AQI_DEFAULT_UPDATE_FREQUENCY will be used.
 ````
 
 ## 3. Update
