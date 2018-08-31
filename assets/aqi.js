@@ -1,6 +1,6 @@
 // Configuration
-var AQI_DEFAULT_UPDATE_FREQUENCY 	= 60; 	// Default seconds to refresh the data if not specified by the user via url.
-var AQI_MIN_UPDATE_FREQUENCY 		= 10; 	// Min seconds for the update frequency, must be greater than 1, if user use lower than that, the value will be set to this.
+var AQI_DEFAULT_UPDATE_FREQUENCY 	= 60; 	// Default seconds to auto refresh the data if not specified by the user via url.
+var AQI_MIN_UPDATE_FREQUENCY 		= 10; 	// Min seconds for the refresh frequency, must be greater than 1, if user use lower than that, the value will be set to this.
 
 // Don't edit
 var AQI_TIMEOUT = null;
