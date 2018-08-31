@@ -143,7 +143,7 @@ function getColor(aqi) {
 }
 
 function calcAQIpm25(pm25) {
-  let pm1 = 0;
+	let pm1 = 0;
 	let pm2 = 12;
 	let pm3 = 35.4;
 	let pm4 = 55.4;
@@ -162,7 +162,7 @@ function calcAQIpm25(pm25) {
 	let aqi8 = 500;
 
 	let aqipm25 = 0;
-
+	
 	if (pm25 >= pm1 && pm25 <= pm2) {
 		aqipm25 = ((aqi2 - aqi1) / (pm2 - pm1)) * (pm25 - pm1) + aqi1;
 	} else if (pm25 >= pm2 && pm25 <= pm3) {
@@ -177,6 +177,9 @@ function calcAQIpm25(pm25) {
 		aqipm25 = ((aqi7 - aqi6) / (pm7 - pm6)) * (pm25 - pm6) + aqi6;
 	} else if (pm25 >= pm7 && pm25 <= pm8) {
 		aqipm25 = ((aqi8 - aqi7) / (pm8 - pm7)) * (pm25 - pm7) + aqi7;
+	}
+	else if (pm25 >= pm8) {
+		aqipm25 = ((aqi8 - aqi7) / (pm8 - pm7)) * (pm25 - pm8) + aqi8;
 	}
 	return aqipm25.toFixed(0);
 }
@@ -216,6 +219,9 @@ function calcAQIpm10(pm10) {
 		aqipm10 = ((aqi7 - aqi6) / (pm7 - pm6)) * (pm10 - pm6) + aqi6;
 	} else if (pm10 >= pm7 && pm10 <= pm8) {
 		aqipm10 = ((aqi8 - aqi7) / (pm8 - pm7)) * (pm10 - pm7) + aqi7;
+	}
+	else if (pm10 >= pm8) {
+		aqipm10 = ((aqi8 - aqi7) / (pm8 - pm7)) * (pm10 - pm8) + aqi8;
 	}
 	return aqipm10.toFixed(0);
 }
