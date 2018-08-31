@@ -73,9 +73,9 @@ STORED_READ_NUM = 100   # Maximum number of readings to plot or store, when max 
 ````
 
 **/var/www/html/assets/aqi.js**
+(Not important)
 
 ````javascript
-<!-- Page refresh frequency in seconds, remove line or comment for manual refresh -->
 var AQI_DEFAULT_UPDATE_FREQUENCY 	= 60; 	// Default seconds to refresh the data if not specified by the user via url.
 var AQI_MIN_UPDATE_FREQUENCY 		= 10; 	// Min seconds for the update frequency, must be greater than 1, if user use lower than that, the value will be set to this.
 ````
