@@ -72,11 +72,20 @@ UPDATE_FREQUENCY = 60  # Update frequency in seconds, new measurements after tha
 STORED_READ_NUM = 100   # Maximum number of readings to plot or store, when max is reached, the oldest read will be removed.
 ````
 
-**/var/www/html/index.html**
+**/var/www/html/assets/aqi.js**
 
-````html
+````javascript
 <!-- Page refresh frequency in seconds, remove line or comment for manual refresh -->
-<meta http-equiv="refresh" content="20">
+var AQI_DEFAULT_UPDATE_FREQUENCY 	= 60; 	// Default seconds to refresh the data if not specified by the user via url.
+var AQI_MIN_UPDATE_FREQUENCY 		= 10; 	// Min seconds for the update frequency, must be greater than 1, if user use lower than that, the value will be set to this.
+````
+
+**URL Parameters**
+
+Use url parameters like: http://url:port/?param1=value&param2=othervalue
+
+````
+update=60 // Seconds to refresh the data, use 0 for manual refresh only. if not set AQI_DEFAULT_UPDATE_FREQUENCY will be used.
 ````
 
 ## 3. Update

@@ -1,5 +1,18 @@
-function getData() {
-  fetch("aqi.json").then(response => {
+// Configuration
+var AQI_DEFAULT_UPDATE_FREQUENCY 	= 60; 	// Default seconds to refresh the data if not specified by the user via url.
+var AQI_MIN_UPDATE_FREQUENCY 		= 10; 	// Min seconds for the update frequency, must be greater than 1, if user use lower than that, the value will be set to this.
+
+// Don't edit
+var AQI_TIMEOUT = null;
+
+function aqiGetData() {
+	if(AQI_TIMEOUT)
+	{
+		clearTimeout(AQI_TIMEOUT);
+		AQI_TIMEOUT = null;
+	}
+	
+	fetch("aqi.json").then(response => {
     response.json().then(data => {
       
       updateHtml(data[data.length-1]);
@@ -96,7 +109,11 @@ function getData() {
     })
   }).catch(err => {
     console.log(err);
-  })
+  });
+  
+	if(aqiUpdateTimeout && aqiUpdateTimeout > 0){
+		AQI_TIMEOUT = setTimeout(function(){ aqiGetData(); }, 1000*aqiUpdateTimeout);
+	}
 }
 
 function updateHtml(data) {
@@ -225,3 +242,19 @@ function calcAQIpm10(pm10) {
 	}
 	return aqipm10.toFixed(0);
 }
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+    results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+var aqiUpdateTimeout = parseInt(getParameterByName('refresh'));
+if(aqiUpdateTimeout == null || isNaN(aqiUpdateTimeout))
+	aqiUpdateTimeout = AQI_DEFAULT_UPDATE_FREQUENCY;
+else
+	aqiUpdateTimeout = Math.max(AQI_MIN_UPDATE_FREQUENCY, aqiUpdateTimeout);
