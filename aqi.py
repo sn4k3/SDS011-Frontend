@@ -11,7 +11,7 @@ SERIALPORT = "/dev/ttyUSB0" # USB port where SDS011 is
 # Less reads = Less precision and fast
 # More reads = More precision and slow
 # After measurements the sensor, laser and fan will be turn off for 'UPDATE_FREQUENCY' time, this will increase the lifespan of the sensor.
-READINGS = 10           # Number of readings, this will not perform an AVG, only the last read will be used as value.
+READINGS = 15           # Number of readings, this will not perform an AVG, only the last read will be used as value.
 SLEEP_BETWEEN_READS = 2 # Time to sleep in seconds between each read, total read time will be READINGS x SLEEP_BETWEEN_READS.
 UPDATE_FREQUENCY = 60   # Update frequency in seconds, new measurements after that time.
 # If UPDATE_FREQUENCY = 0, the sensor will never turn off, this will wear your sensor much faster.

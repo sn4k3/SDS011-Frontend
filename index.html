@@ -9,25 +9,25 @@
     <title>SDS011 AQI</title>
     <script src="assets/aqi.js"></script>
     <script src="assets/Chart.bundle.min.js"></script>
-    <link rel='stylesheet' href='assets/style.css'>
+    <link rel="stylesheet" href="assets/style.css">
   </head>
   <body onload="aqiGetData()">
     <div class="container">
       <!--<h1>AQI</h1>!-->
         <div class="clearfix">
-            <p class='time floatLeft' id="time">&nbsp;</p>
+            <p class="time floatLeft" id="time">&nbsp;</p>
             <button class="button buttonBlack floatRight" onclick="aqiGetData()">Refresh</button>
         </div>
         <div class="clearfix"></div>
-      <div class='aqi-container' id="containerPm25">
-          <div class='aqi-label'>AQI (PM2.5)</div>
-          <div class='aqi' id="aqiPm25"></div>
-          <div class='pm-label' id="pm25"></div>
+      <div class="aqi-container" id="containerPm25">
+          <div class="aqi-label" id="aqiPm25Label">AQI (PM2.5)</div>
+          <div class="aqi" id="aqiPm25"></div>
+          <div class="pm-label" id="pm25"></div>
       </div>
-      <div class='aqi-container' id="containerPm10">
-          <div class='aqi-label'>AQI (PM10)</div>
-          <div class='aqi' id="aqiPm10"></div>
-          <div class='pm-label' id="pm10"></div>
+      <div class="aqi-container" id="containerPm10">
+          <div class="aqi-label" id="aqiPm10Label">AQI (PM10)</div>
+          <div class="aqi" id="aqiPm10"></div>
+          <div class="pm-label" id="pm10"></div>
       </div>
 	  
 	  
@@ -35,7 +35,7 @@
 	  
 	<canvas id="aqi_chart" width="740" height="400"></canvas>
 	
-	<div class="container center">
+	<div id="aqiIndexImg" class="container center">
 		<img src="assets/air_quality_index.png" />
 	</div>
 	  

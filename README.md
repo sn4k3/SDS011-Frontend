@@ -34,6 +34,17 @@ First steps
  
  ``sudo nano /etc/lighttpd/lighttpd.conf``
  
+ Add ``"mod_expire"`` to "server_modules".
+ 
+ Add this section:
+ 
+ ````text
+expire.url = (
+    "/assets/" => "access 0 days",
+    "/index.html" => "access 0 days"
+)
+````
+ 
  Then edit "server.port", i use 81, but you can choose.
  
  ``server.port                 = 81``
@@ -75,16 +86,28 @@ STORED_READ_NUM = 100   # Maximum number of readings to plot or store, when max 
 **/var/www/html/assets/aqi.js**
 
 ````javascript
-var AQI_DEFAULT_UPDATE_FREQUENCY 	= 60; 	// Default seconds to refresh the data if not specified by the user via url.
-var AQI_MIN_UPDATE_FREQUENCY 		= 10; 	// Min seconds for the update frequency, must be greater than 1, if user use lower than that, the value will be set to this.
+var AQI_CONFIG = {
+    UPDATE_FREQUENCY        : 60,	// Default seconds to auto refresh the data if not specified by the user via url.
+    MIN_UPDATE_FREQUENCY    : 10,	// Min seconds for the refresh frequency, must be greater than 1, if user use lower than that, the value will be set to this.
+    SHOW_AQI                : true,	// Show AQI index values by default or only pm values
+
+    GRAPH_WIDTH             : 720,  // Set the graph width, note the graph is responsive
+    GRAPH_HEIGHT            : 420,  // Set the graph height, note the graph is responsive
+    GRAPH_MAX_DOTS          : 50,   // Set the max dots to show on the graph
+};
+
 ````
 
 **URL Parameters**
 
-Use url parameters like: http://url:port/?param1=value&param2=othervalue
+Use url parameters like: http://url:port/?param1=value&param2=othervalue&param3=value
 
 ````
-refresh=60 // Seconds to auto refresh the data, use 0 for manual refresh only. if not set AQI_DEFAULT_UPDATE_FREQUENCY will be used.
+refresh=60      // Seconds to auto refresh the data, use 0 for manual refresh only. if not set AQI_DEFAULT_UPDATE_FREQUENCY will be used.
+showaqi=0       // Show AQI index values or only pm values
+graphwidth=720  // Set the graph width, note the graph is responsive
+graphheight=400 // Set the graph height, note the graph is responsive
+graphdots=50    // Set the max dots to show on the graph
 ````
 
 ## 3. Update
