@@ -7,19 +7,31 @@ Adapted from: https://opensource.com/article/18/3/how-measure-particulate-matter
 
 First steps
  ```ssh
- sudo apt install git-core python-serial python-enum lighttpd
- sudo chown pi:pi /var/www/html/
- git clone https://github.com/sn4k3/SDS011-Frontend.git sds011temp 
- rsync -a sds011temp/* /var/www/html/
- rm -rf sds011temp
- chmod +x /var/www/html/aqi.py
- echo [] > /var/www/html/aqi.json
-  
+sudo apt install git-core python-serial python-enum lighttpd pip3
+pip3 install https://github.com/ikalchev/py-sds011/archive/master.zip
+sudo pip3 install https://github.com/ikalchev/py-sds011/archive/master.zip
+sudo chown $USER:$USER /var/www/html/
+sudo chgrp -R $USER /var/www/html
+sudo usermod -a -G www-data 
+sudo usermod -a -G $USER www-data
+git clone https://github.com/sn4k3/SDS011-Frontend.git sds011temp
+rsync -a sds011temp/* /var/www/html/
+rm -rf sds011temp
+chmod +x /var/www/html/scripts/aqi.py
+chmod +x /var/www/html/scripts/aqi3.py
+echo [] > /var/www/html/assets/aqi.json
+sudo chmod 664 /var/www/html/assets/aqi.json
+sudo lighttpd-enable-mod cgi
+sudo service lighttpd stop
+sudo chown -R $USER:$USER /var/log/lighttpd
+sudo chown -R $USER:$USER /var/run/lighttpd
+sudo chown -R $USER:$USER /var/cache/lighttpd
+
  ```
  
  To test if the aqi.py script is OK you can run:
  
- ``python /var/www/html/aqi.py``
+ ``python3 /var/www/html/scripts/aqi3.py debug``
  (You need to force quit when you ready, CTRL + C)
  
  Run the script automatically so that we don’t have to start the script manually every time, we can let it start with a cronjob, e.g., with every restart of the Raspberry Pi. To do this, open the crontab file:
@@ -28,9 +40,14 @@ First steps
  
  and add the following line at the end:
  
- ``@reboot python /var/www/html/aqi.py &``
+ ``@reboot python3 /var/www/html/scripts/aqi3.py start > /dev/null 2>&1 &``
  
- Now we must confirure the http server, open the configuration file with:
+ Otherwise if you prefer to start the sensor manually from web use the following line to put sensor at sleep each boot:
+ 
+  ``@reboot python3 /var/www/html/scripts/aqi3.py stop > /dev/null 2>&1 &``
+  
+   
+ Now we must configure the http server, open the configuration file with:
  
  ``sudo nano /etc/lighttpd/lighttpd.conf``
  
@@ -45,13 +62,47 @@ expire.url = (
 )
 ````
  
- Then edit "server.port", i use 81, but you can choose.
+ Edit "server.port", i use 81, but you can choose.
  
- ``server.port                 = 81``
+ Edit "server.username", and "server.groupname" to pi
  
- Save, exit and reboot.
+ ````
+server.port                 = 81
+server.username             = "pi"
+server.groupname            = "pi"
+````
+
+Modify /etc/init.d/lighttpd. Change 'www-data' to 'pi'.
+
+````ssh
+sudo nano /etc/init.d/lighttpd
+    from: install -d -o www-data -g www-data -m 0750 "/var/run/lighttpd" 
+      to: install -d -o pi -g pi -m 0750 "/var/run/lighttpd"
+````
+
+Modify /usr/lib/tmpfiles.d/lighttpd.tmpfile.conf and change www-data to pi.
+
+````ssh
+sudo nano /usr/lib/tmpfiles.d/lighttpd.tmpfile.conf
+  from: d /var/run/lighttpd 0750 www-data www-data -
+    to: d /var/run/lighttpd 0750 pi pi -
+````
  
- ``sudo reboot``
+ 
+Edit '/etc/lighttpd/conf-enabled/10-cgi.conf' with ``sudo nano /etc/lighttpd/conf-enabled/10-cgi.conf`` and put the content:
+ 
+ ````
+server.modules += ( "mod_cgi" )
+
+$HTTP["url"] =~ "^/cgi-bin/" {
+        alias.url += ( "/cgi-bin/" => "/var/www/html/cgi-bin/" )
+        cgi.assign = (
+                ".py"  => "/usr/bin/python3",
+        )
+}
+````
+ 
+ Save, exit and reboot:  ``sudo reboot``
  
  Now it must display the page, go to your web browser and test, eg:
  
@@ -65,7 +116,7 @@ expire.url = (
  
  There are small things that you can adjust:
  
- **/var/www/html/aqi.py**
+ **/var/www/html/scripts/aqi3.py**
  
  Note: Changes under this file require a reboot or kill the process and re run. 
  
@@ -75,12 +126,13 @@ SERIALPORT = "/dev/ttyUSB0" # USB port where SDS011 is
 # Less reads = Less precision and fast
 # More reads = More precision and slow
 # After measurements the sensor, laser and fan will be turn off for 'UPDATE_FREQUENCY' time, this will increase the lifespan of the sensor.
-READINGS = 10  # Number of readings, this will not perform an AVG, only the last read will be used as value.
-SLEEP_BETWEEN_READS = 2  # Time to sleep in seconds between each read, total read time will be READINGS x SLEEP_BETWEEN_READS.
-UPDATE_FREQUENCY = 60  # Update frequency in seconds, new measurements after that time.
+READINGS = 5                        # Number of readings, this will not perform an AVG, only the last read will be used as value.
+SLEEP_BEFORE_FIRST_READ = 10        # Time to wait in seconds after sensor awake and before the first read. Give sometime for the sensor stabilize
+SLEEP_BETWEEN_READS = 2             # Time to sleep in seconds between each read, total read time will be READINGS x SLEEP_BETWEEN_READS.
+UPDATE_FREQUENCY = 60               # Update frequency in seconds, new measurements after that time.
 # If UPDATE_FREQUENCY = 0, the sensor will never turn off, this will wear your sensor much faster.
 # (according to the manufacturer, the lifespan totals approximately 8000 hours).
-STORED_READ_NUM = 100   # Maximum number of readings to plot or store, when max is reached, the oldest read will be removed.
+STORED_READ_NUM = 100               # Maximum number of readings to plot or store, when max is reached, the oldest read will be removed.
 ````
 
 **/var/www/html/assets/aqi.js**
@@ -118,6 +170,7 @@ If you wish to update/reset your frontend and lose any changes you have made:
 git clone https://github.com/sn4k3/SDS011-Frontend.git sds011temp 
 rsync -a sds011temp/* /var/www/html/
 rm -rf sds011temp
-chmod +x /var/www/html/aqi.py
+chmod +x /var/www/html/scripts/aqi.py
+chmod +x /var/www/html/scripts/aqi3.py
 
 ````

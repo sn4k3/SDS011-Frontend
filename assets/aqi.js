@@ -12,7 +12,7 @@ var AQI_CONFIG = {
 
 // Don't edit
 var AQI_TIMEOUT = null;
-
+var AQI_API = '/cgi-bin/aqiapi.py?action=';
 
 function aqiGetData() {
     if (AQI_TIMEOUT) {
@@ -24,10 +24,15 @@ function aqiGetData() {
     document.getElementById("aqi_chart").setAttribute('width', AQI_CONFIG.GRAPH_WIDTH);
     document.getElementById("aqi_chart").setAttribute('height', AQI_CONFIG.GRAPH_HEIGHT);
 
-    fetch("aqi.json").then(response => {
+    fetch("assets/aqi.json").then(response => {
         response.json().then(data => {
 
-            updateHtml(data[data.length - 1]);
+            if(data.length && data.length > 0) {
+                updateHtml(data[data.length - 1]);
+            }
+            else {
+                updateHtml(null)
+            }
 
 
             // Plot
@@ -130,6 +135,15 @@ function aqiGetData() {
 }
 
 function updateHtml(data) {
+    if(data == null)
+    {
+        document.getElementById("time").innerHTML = "No data";
+        document.getElementById("aqiPm25").innerHTML = '?';
+        document.getElementById("aqiPm10").innerHTML = '?';
+        document.getElementById("pm25").innerHTML = "No data";
+        document.getElementById("pm10").innerHTML = "No data";
+        return;
+    }
     let aqiPm25 = calcAQIpm25(data.pm25);
     let aqiPm10 = calcAQIpm10(data.pm10);
     let colorsPm25 = getColor(aqiPm25);
@@ -149,8 +163,8 @@ function updateHtml(data) {
     else{
         document.getElementById("aqiPm25Label").innerHTML = "PM2.5 (µg/m³)";
         document.getElementById("aqiPm10Label").innerHTML = "PM10 (µg/m³)";
-        document.getElementById("aqiPm25").innerHTML = Math.round(data.pm25);
-        document.getElementById("aqiPm10").innerHTML = Math.round(data.pm10);
+        document.getElementById("aqiPm25").innerHTML = Math.round(data.pm25).toString();
+        document.getElementById("aqiPm10").innerHTML = Math.round(data.pm10).toString();
         document.getElementById("pm25").innerHTML = colorsPm25.evaluation;
         document.getElementById("pm10").innerHTML = colorsPm10.evaluation;
     }
@@ -285,6 +299,30 @@ function getParameterByName(name, url) {
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+function aqiApiStart(){
+    if (!confirm('Are you sure you want to start the sensor?\nIf already running this will restart the sensor.'))
+        return;
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', AQI_API+"start", true);
+    xhr.send();
+}
+
+function aqiApiStop(){
+    if (!confirm('Are you sure you want to stop the sensor?\nSensor will enter in deep sleep and stop collecting data.'))
+        return;
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', AQI_API+"stop", true);
+    xhr.send();
+}
+
+function aqiApiResetdata(){
+    if (!confirm('Are you sure you want to reset the collected data?\nThis action can\'t be undone and all gather data will be lost forever.'))
+        return;
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', AQI_API+"resetdata", true);
+    xhr.send();
 }
 
 let tempConfig = parseInt(getParameterByName('refresh'));

@@ -20,6 +20,7 @@ STORED_READ_NUM = 100   # Maximum number of readings to plot or store, when max 
 
 
 # Don't change
+DATA_FILE = '/var/www/html/assets/aqi.json'
 DEBUG = 0
 CMD_MODE = 2
 CMD_QUERY_DATA = 4
@@ -137,7 +138,7 @@ if __name__ == "__main__":
 
         if values is not None and len(values) == 2:
             # open stored data
-            with open('/var/www/html/aqi.json') as json_data:
+            with open(DATA_FILE) as json_data:
                 data = json.load(json_data)
 
             # check if length is more than STORED_READ_NUM and delete first/oldest element
@@ -148,7 +149,7 @@ if __name__ == "__main__":
             data.append({'pm25': values[0], 'pm10': values[1], 'time': time.strftime("%d-%m-%Y %H:%M:%S")})
 
             # save it
-            with open('/var/www/html/aqi.json', 'w') as outfile:
+            with open(DATA_FILE, 'w') as outfile:
                 json.dump(data, outfile)
 
         if UPDATE_FREQUENCY > 0:
