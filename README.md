@@ -62,9 +62,9 @@ expire.url = (
 )
 ````
  
- Edit "server.port", i use 81, but you can choose.
+ Modify "server.port", i use 81, but you can choose.
  
- Edit "server.username", and "server.groupname" to pi
+ Modify "server.username", and "server.groupname" to pi
  
  ````
 server.port                 = 81
@@ -89,7 +89,7 @@ sudo nano /usr/lib/tmpfiles.d/lighttpd.tmpfile.conf
 ````
  
  
-Edit '/etc/lighttpd/conf-enabled/10-cgi.conf' with ``sudo nano /etc/lighttpd/conf-enabled/10-cgi.conf`` and put the content:
+Modify '/etc/lighttpd/conf-enabled/10-cgi.conf' with ``sudo nano /etc/lighttpd/conf-enabled/10-cgi.conf`` and put the content:
  
  ````
 server.modules += ( "mod_cgi" )
@@ -160,6 +160,17 @@ showaqi=0       // Show AQI index values or only pm values
 graphwidth=720  // Set the graph width, note the graph is responsive
 graphheight=400 // Set the graph height, note the graph is responsive
 graphdots=50    // Set the max dots to show on the graph
+````
+
+**API AQI**
+
+URL: http://url:port/cgi-bin/aqiapi.py?action=xxx
+
+Replace 'xxx' with a action:
+````text
+start       # Start sensor
+stop        # Stop sensor
+resetdata   # Reset the collected data
 ````
 
 ## 3. Update
