@@ -13,12 +13,15 @@ var AQI_CONFIG = {
 // Don't edit
 var AQI_TIMEOUT = null;
 var AQI_API = '/cgi-bin/aqiapi.py?action=';
+var AQI_SENSOR_STATUS = 0;
 
 function aqiGetData() {
     if (AQI_TIMEOUT) {
         clearTimeout(AQI_TIMEOUT);
         AQI_TIMEOUT = null;
     }
+
+    aqiApiGetStatus();
 
     document.getElementById("aqiIndexImg").style.display = AQI_CONFIG.SHOW_AQI ? 'block' : 'none';
     document.getElementById("aqi_chart").setAttribute('width', AQI_CONFIG.GRAPH_WIDTH);
@@ -307,6 +310,8 @@ function aqiApiStart(){
     let xhr = new XMLHttpRequest();
     xhr.open('GET', AQI_API+"start", true);
     xhr.send();
+
+    setTimeout(aqiApiGetStatus, 500);
 }
 
 function aqiApiStop(){
@@ -315,6 +320,8 @@ function aqiApiStop(){
     let xhr = new XMLHttpRequest();
     xhr.open('GET', AQI_API+"stop", true);
     xhr.send();
+
+    setTimeout(aqiApiGetStatus, 500);
 }
 
 function aqiApiResetdata(){
@@ -322,6 +329,21 @@ function aqiApiResetdata(){
         return;
     let xhr = new XMLHttpRequest();
     xhr.open('GET', AQI_API+"resetdata", true);
+    xhr.send();
+}
+
+function aqiApiGetStatus(){
+    let xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            AQI_SENSOR_STATUS = parseInt(xhr.response);
+            let status = AQI_SENSOR_STATUS ? "<strong class='status1'>Online</strong>" : "<strong class='status0'>Offline</strong>";
+            document.getElementById("sensorStatus").innerHTML = "Sensor Status: "+status;
+        }
+    };
+
+    xhr.open('GET', AQI_API+"status", true);
     xhr.send();
 }
 

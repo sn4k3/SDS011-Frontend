@@ -171,6 +171,7 @@ Replace 'xxx' with a action:
 start       # Start sensor
 stop        # Stop sensor
 resetdata   # Reset the collected data
+status      # Get the sensor status, 0 = Off | 1 = On
 ````
 
 ## 3. Update

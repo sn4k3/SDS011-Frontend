@@ -6,23 +6,33 @@ import sys
 
 SCRIPT_PATH = "/var/www/html/scripts/aqi3.py"
 DATA_FILE = "/var/www/html/assets/aqi.json"
+QUERY_PROCESS = "ps aux | grep " + SCRIPT_PATH + " | grep -v \"grep\" | awk '{print $2}'"
 KILL_PROCESS = "ps aux | grep " + SCRIPT_PATH + " | grep -v \"grep\" | awk '{print $2}' | xargs kill -9 > /dev/null 2>&1 &"
 START_PROCESS = "/usr/bin/python3 " + SCRIPT_PATH + " start > /dev/null 2>&1 &"
 STOP_PROCESS = "/usr/bin/python3 " + SCRIPT_PATH + " stop > /dev/null 2>&1 &"
 
 
+def queryProcess():
+    try:
+        if int(subprocess.check_output(QUERY_PROCESS, shell=True, timeout=5)) >= 1:
+            return 1
+    except:
+        pass
+    return 0
+
+
 def killProcess():
-    subprocess.check_output(KILL_PROCESS, shell=True, timeout=5)
+    subprocess.call(KILL_PROCESS, shell=True, timeout=5)
 
 
 def stopSensor():
     killProcess()
-    subprocess.check_output(STOP_PROCESS, shell=True, timeout=5)
+    subprocess.call(STOP_PROCESS, shell=True, timeout=5)
 
 
 def restartProcess():
     killProcess()
-    subprocess.check_output(START_PROCESS, shell=True, timeout=5)
+    subprocess.call(START_PROCESS, shell=True, timeout=5)
 
 
 def main():
@@ -46,6 +56,9 @@ def main():
                     print("Unexpected error:", sys.exc_info())
 
                 print("ok")
+                return
+            elif value == 'status':
+                print(queryProcess())
                 return
 
     print("?")

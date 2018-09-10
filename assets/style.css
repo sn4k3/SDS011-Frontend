@@ -7,13 +7,23 @@
 .aqi-container {
     border: 3px solid #000;
     border-radius: 10px;
-    width: 200px;
+    width: 214px;
     float: left;
     margin: 10px;
     text-align: center;
     padding: 10px;
 	height: 150px; 
 }
+
+.aqi-container-left {
+    margin-left: 0;
+}
+
+.aqi-container-right {
+    margin-right: 0;
+}
+
+
 
 .aqi {
     font-size: 6em;
@@ -25,6 +35,7 @@
 }
 
 .time {
+    margin-top: 5px;
 }
 
 h1 {
@@ -65,3 +76,6 @@ h1 {
 .buttonRed {background-color: #f44336;} /* Red */
 .buttonGray {background-color: #e7e7e7; color: black;} /* Gray */
 .buttonBlack {background-color: #555555;} /* Black */
+
+.status0 { color: #f44336; }
+.status1 { color: #4CAF50; }

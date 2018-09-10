@@ -15,16 +15,17 @@
     <div class="container">
       <!--<h1>AQI</h1>!-->
         <div class="clearfix">
-            <p class="time floatLeft" id="time">&nbsp;</p>
             <button class="button buttonBlack floatRight" onclick="aqiGetData()">Refresh</button>
+            <div class="time" id="time">&nbsp;</div>
+            <div class="sensorStatus" id="sensorStatus">Sensor Status: <strong>?</strong></div>
         </div>
         <div class="clearfix"></div>
-      <div class="aqi-container" id="containerPm25">
+      <div class="aqi-container aqi-container-left" id="containerPm25">
           <div class="aqi-label" id="aqiPm25Label">AQI (PM2.5)</div>
           <div class="aqi" id="aqiPm25"></div>
           <div class="pm-label" id="pm25"></div>
       </div>
-      <div class="aqi-container" id="containerPm10">
+      <div class="aqi-container aqi-container-right" id="containerPm10">
           <div class="aqi-label" id="aqiPm10Label">AQI (PM10)</div>
           <div class="aqi" id="aqiPm10"></div>
           <div class="pm-label" id="pm10"></div>
