@@ -165,7 +165,7 @@ graphheight=400 // Set the graph height, note the graph is responsive
 graphdots=50    // Set the max dots to show on the graph
 ````
 
-**API AQI**
+**AQI API**
 
 URL: http://url:port/cgi-bin/aqiapi.py?action=xxx
 
