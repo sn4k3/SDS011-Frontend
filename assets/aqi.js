@@ -11,14 +11,17 @@ var AQI_CONFIG = {
 
 
 // Don't edit
-var AQI_TIMEOUT = null;
-var AQI_API = '/cgi-bin/aqiapi.py?action=';
-var AQI_SENSOR_STATUS = 0;
+const AQI_VARS = {
+    TIMEOUT: null,
+    API: '/cgi-bin/aqiapi.py?action=',
+    SENSOR_STATUS: 0,
+    GRAPH: null
+};
 
 function aqiGetData() {
-    if (AQI_TIMEOUT) {
-        clearTimeout(AQI_TIMEOUT);
-        AQI_TIMEOUT = null;
+    if (AQI_VARS.TIMEOUT) {
+        clearTimeout(AQI_VARS.TIMEOUT);
+        AQI_VARS.TIMEOUT = null;
     }
 
     aqiApiGetStatus();
@@ -124,14 +127,16 @@ function aqiGetData() {
                 }
             };
 
-            var APIChart = new Chart(ctx, config);
+            if(AQI_VARS.GRAPH)
+                AQI_VARS.GRAPH.destroy();
+            AQI_VARS.GRAPH = new Chart(ctx, config);
         })
     }).catch(err => {
         console.log(err);
     });
 
     if (AQI_CONFIG.UPDATE_FREQUENCY && AQI_CONFIG.UPDATE_FREQUENCY > 0) {
-        AQI_TIMEOUT = setTimeout(function () {
+        AQI_VARS.TIMEOUT = setTimeout(function () {
             aqiGetData();
         }, 1000 * AQI_CONFIG.UPDATE_FREQUENCY);
     }
@@ -308,7 +313,7 @@ function aqiApiStart(){
     if (!confirm('Are you sure you want to start the sensor?\nIf already running this will restart the sensor.'))
         return;
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', AQI_API+"start", true);
+    xhr.open('GET', AQI_VARS.API+"start", true);
     xhr.send();
 
     setTimeout(aqiApiGetStatus, 500);
@@ -318,7 +323,7 @@ function aqiApiStop(){
     if (!confirm('Are you sure you want to stop the sensor?\nSensor will enter in deep sleep and stop collecting data.'))
         return;
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', AQI_API+"stop", true);
+    xhr.open('GET', AQI_VARS.API+"stop", true);
     xhr.send();
 
     setTimeout(aqiApiGetStatus, 500);
@@ -328,7 +333,7 @@ function aqiApiResetdata(){
     if (!confirm('Are you sure you want to reset the collected data?\nThis action can\'t be undone and all gather data will be lost forever.'))
         return;
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', AQI_API+"resetdata", true);
+    xhr.open('GET', AQI_VARS.API+"resetdata", true);
     xhr.send();
 }
 
@@ -337,13 +342,13 @@ function aqiApiGetStatus(){
 
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
-            AQI_SENSOR_STATUS = parseInt(xhr.response);
-            let status = AQI_SENSOR_STATUS ? "<strong class='status1'>Online</strong>" : "<strong class='status0'>Offline</strong>";
+            AQI_VARS.SENSOR_STATUS = parseInt(xhr.response);
+            let status = AQI_VARS.SENSOR_STATUS ? "<strong class='status1'>Online</strong>" : "<strong class='status0'>Offline</strong>";
             document.getElementById("sensorStatus").innerHTML = "Sensor Status: "+status;
         }
     };
 
-    xhr.open('GET', AQI_API+"status", true);
+    xhr.open('GET', AQI_VARS.API+"status", true);
     xhr.send();
 }
 
